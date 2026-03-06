@@ -1137,3 +1137,8 @@ section .header {
     /* border: 1px solid; */
   }
 }
+
+.feature__link{
+  text-decoration: none;
+  cursor: pointer;
+}

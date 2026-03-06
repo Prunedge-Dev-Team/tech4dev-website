@@ -1,9 +1,7 @@
 const {src, dest, series, watch} = require('gulp');
 const fileinclude = require('gulp-file-include');
 
-//Don't copy with images in normal mode because that's time wasting
-const copyWithoutImages = () => src(['assets/**','!assets/images/**']).pipe(dest('build/assets'));
-
+// Copy all assets (including images) so the site works when run locally
 const copy = () => src(['assets/**']).pipe(dest('build/assets'));
 
 const include = () => {
@@ -16,13 +14,6 @@ const include = () => {
         .pipe(dest('build'))
 };
 
-const watchFiles = () => watch(['**.html','**/*.html'],series(copyWithoutImages,include));
+const watchFiles = () => watch(['**.html','**/*.html'], series(copy, include));
 
-if(/production/i.test(process.env.NODE_ENV)){
-    exports.default = series(copy,include);
-}else{
-    exports.default = series(
-        copyWithoutImages,
-        include
-    );
-}
+exports.default = series(copy, include);
